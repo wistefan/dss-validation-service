@@ -1,0 +1,21 @@
+micronaut:
+  application:
+    name: ${project.artifactId}
+  server:
+    port: 8070
+endpoints:
+  health:
+    enabled: true
+
+trust:
+  listUrls:
+    - "https://tl.bundesnetzagentur.de/TL-DE.XML"
+  stores:
+    - path: "store.jks"
+      type: "JKS"
+      password: "password"
+
+---
+logger:
+  levels:
+    ROOT: INFO
