@@ -3,10 +3,13 @@ endpoints:
     enabled: true
 
 trust:
-  listUrls:
-    - "https://tl.bundesnetzagentur.de/TL-DE.XML"
+  lists:
+    - refreshSeconds: 5
+      url: "https://tl.bundesnetzagentur.de/TL-DE.XML"
+    - refreshSeconds: 2
+      url: "https://ec.europa.eu/tools/lotl/eu-lotl.xml"
   stores:
-    - path: "src/test/resources/store.jks"
+    - path: "store.jks"
       type: "JKS"
       password: "password"
 ---

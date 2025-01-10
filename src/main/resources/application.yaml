@@ -8,8 +8,9 @@ endpoints:
     enabled: true
 
 trust:
-  listUrls:
-    - "https://tl.bundesnetzagentur.de/TL-DE.XML"
+  lists:
+    - refreshSeconds: 5
+      url: "https://tl.bundesnetzagentur.de/TL-DE.XML"
   stores:
     - path: "store.jks"
       type: "JKS"

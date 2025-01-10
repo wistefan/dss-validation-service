@@ -6,10 +6,19 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Configuration for the trust sources
+ */
 @Data
 @ConfigurationProperties("trust")
 public class TrustProperties {
 
-	private List<String> listUrls = new ArrayList<>();
+	/**
+	 * Configuration of trusted lists to be used as trust source
+	 */
+	private List<TrustedListConfig> lists = new ArrayList<>();
+	/**
+	 * Configuration of trust stores to be used as trust source
+	 */
 	private List<StoreConfig> stores = new ArrayList<>();
 }

@@ -47,6 +47,9 @@ public class Application {
 		return new DefaultAIASource();
 	}
 
+	/**
+	 * Initiate validation service for remote documents
+	 */
 	@Singleton
 	public RemoteDocumentValidationService validationService(TrustSources trustSources, CRLSource crlSource, OCSPSource ocspSource, AIASource aiaSource) {
 		if (trustSources.getCommonTrustedCertificateSources() == null || trustSources.getCommonTrustedCertificateSources().isEmpty()) {

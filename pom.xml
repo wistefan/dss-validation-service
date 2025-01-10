@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ficodes.iam</groupId>
-    <artifactId>dss-verification-service</artifactId>
+    <artifactId>dss-validation-service</artifactId>
     <version>0.0.1</version>
 
     <parent>
@@ -38,7 +38,7 @@
         <project.description>A REST-Service to provide functionalities of the ESIG Digital Signature Services library.
         </project.description>
         <project.summary>Service to provide ESIG Digital Signature Services</project.summary>
-        <project.url>https://github.com/wistefan/dss-verification-service</project.url>
+        <project.url>https://github.com/wistefan/dss-validation-service</project.url>
         <project.license.name>GNU LESSER GENERAL PUBLIC LICENSE 2.1</project.license.name>
         <project.license.identifier>LGPL-2.1</project.license.identifier>
         <project.license.url>https://opensource.org/license/lgpl-2-1</project.license.url>
@@ -208,6 +208,11 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>${jdk.version}</source>
@@ -243,7 +248,7 @@
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-Amicronaut.processing.group=com.ficodes.iam</arg>
-                        <arg>-Amicronaut.processing.module=dss-verification-service</arg>
+                        <arg>-Amicronaut.processing.module=dss-validation-service</arg>
                     </compilerArgs>
                 </configuration>
                 <executions>
@@ -282,7 +287,7 @@
                             </annotationProcessorPaths>
                             <compilerArgs>
                                 <arg>-Amicronaut.processing.group=com.ficodes.iam</arg>
-                                <arg>-Amicronaut.processing.module=dss-verification-service</arg>
+                                <arg>-Amicronaut.processing.module=dss-validation-service</arg>
                             </compilerArgs>
                         </configuration>
                     </execution>
@@ -304,20 +309,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED --add-opens
-                        java.base/java.time=ALL-UNNAMED
-                    </argLine>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED --add-opens
-                        java.base/java.time=ALL-UNNAMED
-                    </argLine>
-                </configuration>
             </plugin>
         </plugins>
     </build>
