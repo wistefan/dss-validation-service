@@ -1,0 +1,18 @@
+endpoints:
+  health:
+    enabled: true
+
+trust:
+  lists:
+    - refreshSeconds: 5
+      url: "https://tl.bundesnetzagentur.de/TL-DE.XML"
+    - refreshSeconds: 2
+      url: "https://ec.europa.eu/tools/lotl/eu-lotl.xml"
+  stores:
+    - path: "store.jks"
+      type: "JKS"
+      password: "password"
+---
+logger:
+  levels:
+    ROOT: INFO

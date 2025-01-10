@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ficodes.iam</groupId>
+    <artifactId>dss-validation-service</artifactId>
+    <version>0.0.1</version>
+
+    <parent>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-parent</artifactId>
+        <version>4.7.1</version>
+    </parent>
+
+    <description>${project.description}</description>
+    <url>${project.url}</url>
+    <licenses>
+        <license>
+            <name>${project.license.name}</name>
+            <url>${project.license.url}</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>${project.author.name}</name>
+            <email>${project.author.email}</email>
+        </developer>
+    </developers>
+    <properties>
+        <jdk.version>21</jdk.version>
+        <micronaut.version>4.7.1</micronaut.version>
+
+        <!-- project info -->
+        <project.author.name>Stefan Wiedemann</project.author.name>
+        <project.author.email>wistefan@googlemail.com</project.author.email>
+        <project.description>A REST-Service to provide functionalities of the ESIG Digital Signature Services library.
+        </project.description>
+        <project.summary>Service to provide ESIG Digital Signature Services</project.summary>
+        <project.url>https://github.com/wistefan/dss-validation-service</project.url>
+        <project.license.name>GNU LESSER GENERAL PUBLIC LICENSE 2.1</project.license.name>
+        <project.license.identifier>LGPL-2.1</project.license.identifier>
+        <project.license.url>https://opensource.org/license/lgpl-2-1</project.license.url>
+        <project.title>Digital Signature Service</project.title>
+        <project.contact.email>wistefan@googlemail.com</project.contact.email>
+
+        <!-- build -->
+        <version.maven-compiler-plugin>3.12.1</version.maven-compiler-plugin>
+
+        <!-- dss -->
+        <version.eu.europa.ec.joinup.sd-dss>6.1</version.eu.europa.ec.joinup.sd-dss>
+
+        <version.org.projectlombok.lombok>1.18.36</version.org.projectlombok.lombok>
+
+        <!-- logging -->
+        <version.io.kokuwa.micronaut.logging>4.0.1</version.io.kokuwa.micronaut.logging>
+
+        <!-- oci -->
+        <exec.mainClass>org.fiware.iam.Application</exec.mainClass>
+        <image.registry>quay.io</image.registry>
+        <image.repository>fiware</image.repository>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-bom</artifactId>
+                <version>${version.eu.europa.ec.joinup.sd-dss}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <!-- lazy dev -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.org.projectlombok.lombok}</version>
+        </dependency>
+        <!-- micronaut -->
+        <dependency>
+            <groupId>org.graalvm.nativeimage</groupId>
+            <artifactId>svm</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-runtime</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-management</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-server-netty</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.validation</groupId>
+            <artifactId>micronaut-validation</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.reactor</groupId>
+            <artifactId>micronaut-reactor</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-jackson-databind</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.kokuwa.micronaut</groupId>
+            <artifactId>micronaut-logging</artifactId>
+            <version>${version.io.kokuwa.micronaut.logging}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- dss -->
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-validation-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-jades</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-crl-parser-x509crl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-utils-apache-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+            <artifactId>dss-tsl-validation</artifactId>
+        </dependency>
+        <!-- required for config micronaut > 4.x -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.test</groupId>
+            <artifactId>micronaut-test-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.test</groupId>
+            <artifactId>micronaut-test-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>io.micronaut.maven</groupId>
+                <artifactId>micronaut-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <!-- Uncomment to enable incremental compilation -->
+                    <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
+                    <annotationProcessorPaths combine.self="override">
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${version.org.projectlombok.lombok}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-inject-java</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-graal</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-http-validation</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut.validation</groupId>
+                            <artifactId>micronaut-validation-processor</artifactId>
+                            <version>4.8.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Amicronaut.processing.group=com.ficodes.iam</arg>
+                        <arg>-Amicronaut.processing.module=dss-validation-service</arg>
+                    </compilerArgs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <annotationProcessorPaths combine.self="override">
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                    <version>${version.org.projectlombok.lombok}</version>
+                                </path>
+                                <path>
+                                    <groupId>io.micronaut</groupId>
+                                    <artifactId>micronaut-inject-java</artifactId>
+                                    <version>${micronaut.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>io.micronaut</groupId>
+                                    <artifactId>micronaut-graal</artifactId>
+                                    <version>${micronaut.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>io.micronaut</groupId>
+                                    <artifactId>micronaut-http-validation</artifactId>
+                                    <version>${micronaut.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>io.micronaut.validation</groupId>
+                                    <artifactId>micronaut-validation-processor</artifactId>
+                                    <version>4.8.0</version>
+                                </path>
+                            </annotationProcessorPaths>
+                            <compilerArgs>
+                                <arg>-Amicronaut.processing.group=com.ficodes.iam</arg>
+                                <arg>-Amicronaut.processing.module=dss-validation-service</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.ficodes.iam.Application</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>oci</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <configuration combine.self="override">
+                            <from>
+                                <image>registry.access.redhat.com/ubi8/openjdk-17:1.15</image>
+                            </from>
+                            <to>
+                                <image>${image.registry}/${image.repository}/${project.artifactId}</image>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                            </to>
+                            <container>
+                                <labels>
+                                    <!-- oci labels -->
+                                    <org.opencontainers.image.authors>${project.author.name} - ${project.author.email}
+                                    </org.opencontainers.image.authors>
+                                    <org.opencontainers.image.description>${project.description}
+                                    </org.opencontainers.image.description>
+                                    <org.opencontainers.image.documentation>${project.url}
+                                    </org.opencontainers.image.documentation>
+                                    <org.opencontainers.image.licenses>${project.license.identifier}
+                                    </org.opencontainers.image.licenses>
+                                    <org.opencontainers.image.source>${project.url}</org.opencontainers.image.source>
+                                    <org.opencontainers.image.title>${project.title}</org.opencontainers.image.title>
+                                    <org.opencontainers.image.version>${project.version}
+                                    </org.opencontainers.image.version>
+                                    <org.opencontainers.image.created>${maven.build.timestamp}
+                                    </org.opencontainers.image.created>
+                                    <org.fiware.contact.localpart>${project.contact.email}
+                                    </org.fiware.contact.localpart>
+                                    <!-- redhat required labels -->
+                                    <name>${project.title}</name>
+                                    <description>${project.description}</description>
+                                    <authors>${project.author.name} - ${project.author.email}</authors>
+                                    <maintainer>${project.author.email}</maintainer>
+                                    <documentation>${project.url}</documentation>
+                                    <summary>${project.summary}</summary>
+                                </labels>
+                            </container>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>install</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
