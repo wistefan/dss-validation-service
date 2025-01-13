@@ -4,6 +4,8 @@ micronaut:
   server:
     port: 8070
 endpoints:
+  all:
+    port: 8090
   health:
     enabled: true
 

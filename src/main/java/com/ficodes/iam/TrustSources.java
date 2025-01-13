@@ -44,10 +44,12 @@ public class TrustSources {
 	 */
 	@EventListener
 	public void onApplicationEvent(ServerStartupEvent e) {
+		log.warn("Start the trust sources");
 		if (trustProperties.getLists() != null && !trustProperties.getLists().isEmpty()) {
 			initializeTrustedListSources();
 		}
 		if (trustProperties.getStores() != null && !trustProperties.getStores().isEmpty()) {
+			log.warn("Found trust store");
 			initializeKeystoreSources();
 		}
 	}
@@ -94,6 +96,7 @@ public class TrustSources {
 								storeConfig.type(),
 								storeConfig.password().toCharArray());
 						commonTrustedCertificateSource.importAsTrusted(keyStoreCertificateSource);
+						log.warn("The store {}", keyStoreCertificateSource.getCertificate("test-keystore"));
 						commonTrustedCertificateSources.add(commonTrustedCertificateSource);
 					} catch (IOException ex) {
 						log.warn("Was not able to import certificates from keystore {}.", storeConfig.path(), ex);
