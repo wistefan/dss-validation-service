@@ -96,6 +96,7 @@ public class TrustSources {
 								storeConfig.type(),
 								storeConfig.password().toCharArray());
 						commonTrustedCertificateSource.importAsTrusted(keyStoreCertificateSource);
+						log.warn("The store {}", keyStoreCertificateSource.getCertificate("test-keystore"));
 						commonTrustedCertificateSources.add(commonTrustedCertificateSource);
 					} catch (IOException ex) {
 						log.warn("Was not able to import certificates from keystore {}.", storeConfig.path(), ex);
