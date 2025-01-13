@@ -44,6 +44,7 @@ public class TrustSources {
 	 */
 	@EventListener
 	public void onApplicationEvent(ServerStartupEvent e) {
+		log.warn("Start the trust sources");
 		if (trustProperties.getLists() != null && !trustProperties.getLists().isEmpty()) {
 			initializeTrustedListSources();
 		}
