@@ -48,6 +48,7 @@ public class TrustSources {
 			initializeTrustedListSources();
 		}
 		if (trustProperties.getStores() != null && !trustProperties.getStores().isEmpty()) {
+			log.warn("Found trust store");
 			initializeKeystoreSources();
 		}
 	}
